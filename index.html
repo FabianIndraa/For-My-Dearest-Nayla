@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Nayla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap');
+        
+        :root {
+            --bg-color: #0a0506;
+            --text-color: #ffffff;
+            --accent-color: #fb7185;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 182, 193, 0.1);
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .glass-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-12px);
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 40px;
+            padding: 40px 30px 30px 30px; /* Padding atas lebih besar untuk tombol */
+            animation: popUp 0.5s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .rose-petal {
+            position: fixed;
+            top: -10%;
+            z-index: 999;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        
+        .float { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="valentineMusic" loop>
+        <source src="Ed_Sheeran_-_Perfect_256kbps.webm" type="audio/mpeg">
+    </audio>
+
+    <div id="modal">
+        <div id="modal-container" class="modal-content relative border">
+            <button id="closeBtn" onclick="closeModal()" class="absolute top-4 right-6 text-sm font-bold tracking-widest uppercase opacity-60 hover:opacity-100 transition-all duration-300">
+                Tutup [x]
+            </button>
+            <div id="modal-content-area"></div>
+        </div>
+    </div>
+
+    <main class="min-h-screen flex flex-col items-center justify-center px-6 py-20">
+        
+        <header class="text-center mb-20 transition-all duration-1000" id="hero">
+            <span id="date-label" class="text-rose-400 tracking-[0.3em] uppercase text-sm mb-4 block">February 14, 2026</span>
+            <h1 id="main-title" class="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-rose-300">
+                For You, Nayla
+            </h1>
+            <p id="sub-title" class="text-gray-400 italic text-lg max-w-lg mx-auto font-light leading-relaxed">
+                "Dalam setiap detak jantung, ada nama yang selalu bergema. Kamulah alasan di balik setiap senyumku."
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
+            <div onclick="openCard(1)" class="glass-card p-10 rounded-[2.5rem] relative group cursor-pointer overflow-hidden text-center">
+                <div class="text-orange-200 mb-8 float text-5xl">✨</div>
+                <h3 class="text-2xl font-bold mb-4">Awal Terindah</h3>
+                <p class="text-gray-400 text-sm">Buka untuk melihat kehangatan yang kita mulai bersama.</p>
+            </div>
+
+            <div onclick="openCard(2)" class="glass-card p-10 rounded-[2.5rem] relative group cursor-pointer overflow-hidden text-center">
+                <div class="text-blue-300 mb-8 float text-5xl" style="animation-delay: 0.5s">🌊</div>
+                <h3 class="text-2xl font-bold mb-4">Kedamaian</h3>
+                <p class="text-gray-400 text-sm">Buka untuk merasakan tenang saat aku bersamamu.</p>
+            </div>
+
+            <div onclick="openCard(3)" class="glass-card p-10 rounded-[2.5rem] relative group cursor-pointer overflow-hidden text-center">
+                <div class="text-rose-500 mb-8 float text-5xl" style="animation-delay: 1s">🌹</div>
+                <h3 class="text-2xl font-bold mb-4">Selamanya</h3>
+                <p class="text-gray-400 text-sm">Buka untuk janji cinta yang membara selamanya.</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-4 mt-16">
+            <button id="startBtn" onclick="initValentine()" class="px-10 py-4 bg-gradient-to-r from-rose-600 to-rose-400 rounded-full font-bold text-white shadow-lg hover:scale-105 transition-all animate-bounce">
+                Mulai Cerita Kita ❤️
+            </button>
+            <button id="surpriseBtn" onclick="triggerSurprise()" class="hidden px-10 py-4 bg-white/10 border border-white/20 rounded-full font-bold text-white shadow-lg hover:bg-white/20 transition-all">
+                Klik untuk Kejutan 🌸
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const modal = document.getElementById('modal');
+        const modalContainer = document.getElementById('modal-container');
+        const modalArea = document.getElementById('modal-content-area');
+        const closeBtn = document.getElementById('closeBtn');
+        const body = document.body;
+        const music = document.getElementById('valentineMusic');
+        const startBtn = document.getElementById('startBtn');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        
+        let currentPetalEmoji = '🌸';
+
+        const cardData = {
+            1: {
+                color: '#fdfaf1', text: '#432818', accent: '#d4a373',
+                title: 'Nayla, Cahayaku',
+                message: 'Seperti warna cream yang tenang, kamu membawa kelembutan dalam hidupku yang keras. Terima kasih telah menjadi alasan aku merasa damai.',
+                img: '1000321006.jpg.jpeg'
+            },
+            2: {
+                color: '#f0f7ff', text: '#003049', accent: '#3a86ff',
+                title: 'Samudera Tenang',
+                message: 'Nayla, bersamamu seperti menatap langit biru yang luas. Tidak ada beban, hanya ada kenyamanan yang luar biasa.',
+                img: 'IMG_20251223_150645.jpg.jpeg'
+            },
+            3: {
+                color: '#2b0508', text: '#ffffff', accent: '#e63946',
+                title: 'Cinta Abadi',
+                message: 'Warna merah ini adalah detak jantungku yang hanya untukmu. Kamu adalah segalanya, Nayla. Sampai kapanpun.',
+                img: 'IMG_20260117_144705.jpg.jpeg'
+            }
+        };
+
+        function initValentine() {
+            music.play();
+            startBtn.classList.add('hidden');
+            surpriseBtn.classList.remove('hidden');
+        }
+
+        function openCard(id) {
+            const data = cardData[id];
+            body.style.backgroundColor = data.color;
+            body.style.color = data.text;
+            
+            // Tombol tutup menyesuaikan warna teks tema
+            closeBtn.style.color = (id === 3) ? '#ffffff' : data.text;
+            
+            currentPetalEmoji = id === 3 ? '🌹' : (id === 2 ? '❄️' : '✨');
+
+            modalContainer.style.backgroundColor = data.color;
+            modalContainer.style.borderColor = data.accent;
+            modalArea.innerHTML = `
+                <img src="${data.img}" class="w-full h-auto max-h-[400px] object-cover rounded-3xl mb-6 border-4 shadow-xl" style="border-color: ${data.accent}">
+                <h2 class="text-3xl font-bold mb-4" style="color: ${id === 3 ? '#ff4d6d' : data.text}">${data.title}</h2>
+                <p class="italic text-lg leading-relaxed" style="color: ${data.text}">${data.message}</p>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            body.style.backgroundColor = '#0a0506';
+            body.style.color = '#ffffff';
+            closeBtn.style.color = '#ffffff';
+            currentPetalEmoji = '🌸';
+        }
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.innerHTML = currentPetalEmoji;
+            petal.classList.add('rose-petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            petal.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(petal);
+            setTimeout(() => petal.remove(), 5000);
+        }
+
+        function triggerSurprise() {
+            for(let i=0; i<50; i++) setTimeout(createPetal, i * 100);
+            alert("Happy Valentine, Nayla! ❤️");
+        }
+
+        setInterval(createPetal, 500);
+    </script>
+</body>
+</html>
